@@ -1,2 +1,26 @@
 \section{Executive Summary}
 \label{sec:Executive Summary}
+
+Selected practice: \textbf{Continuous Integration}.\\
+Will continue to use: \textbf{Yes}.
+
+As per my previous report: My project centres around writing an adaptive
+application messaging broker, similar in basic function to open source message
+brokers like RabbitMQ and ActiveMQ. This broker will be written in the Go
+programming language, with a focus on building a high-performance solution
+capable of operating in a variety of different network environments - by
+tweaking message properties in response to suboptimal network conditions.
+For example - in the event that messages are sent over a network which
+experiences a high rate of packet loss - the body of the message could be
+compressed, to reduce the number of packets needed to contain it and, thereby
+reducing the risk of any one packet being lost and requiring retransmission.
+
+The project scope has remained constant since my previous report, with a
+slightly increased emphasis on building a functionally correct and performant
+broker. The '\emph{autonomic/adaptive}' side of the broker will still be
+implemented - and feature in my final project report but, from a software
+development/architecture perspective, I find the challange of building a
+performant message broker to be slightly more interesting. This slight change of
+course actually increases the importance of my Continuous Integration framework,
+in order to keep tabs on broker correctness/performance as features are added/code
+changes.
