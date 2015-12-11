@@ -1,2 +1,61 @@
 \section{Lessons from Applying the Selected Practice}
 \label{sec:Lessons from Applying the Selected Practice}
+
+Despite my initial plan being to set up and host most of my Continuous
+Integration infrastructure myself, it became clear after an initial trial
+that it would be far easier for me to ensure build repeatability/speed if I used
+a cloud-based CI service (some of the reasons for which are detailed below).
+With this in mind, I elected to use the popular and
+excellent \href{https://travis-ci.org/}{Travis CI} - which provides a free tier
+for open-source projects such as mine. Setup was as simple as adding a
+`.travis.yml` file to my project, and enabling my GitHub repo for builds on
+the Travis.ci admin panel. My initial .travis.yml file can be seen in
+Listing~\ref{lst:initialTravis}, and the latest version is available
+\href{https://github.com/FireEater64/gamq/blob/master/.travis.yml}{on GitHub}.
+There are a multitude of configurable options available, but
+my initial, basic configuration in Listing~\ref{lst:initialTravis} consists of
+only three:
+
+\begin{description}
+  \item[Language] Defines the language of the project being built - in this case
+  \href{https://golang.org/}{GoLang}. TravisCI builds (usually) take place
+  inside \href{https://www.docker.com/what-docker}{Docker containers}, with the
+  'language' section of config dictating which pre-built container is used for
+  this particular build. In this case, a language of 'go' will ensure that the
+  build container contains all of the binaries and environment variables required
+  for building and running go projects.
+  \item[Go] This section defines different versions of the go compiler you wish
+  to build your product on. When code is checked in - Travis will spin up a
+  seperate container for each version specified, and run your complete test suite
+  inside each container in parallel. This feature is known as the
+  '\href{https://docs.travis-ci.com/user/customizing-the-build/#Build-Matrix}{build matrix}',
+  and is both \emph{incredibly} useful for ensuring software consistency on multiple
+  different compilers/runtimes (especially useful for interpreted languages such
+  as Java), and something which would be hard to replicate outside of a
+  containerised build environment (i.e. if I'd chosen to self-host my CI).
+  \item[Script] Any custom commands you wish to be run as part of the build.
+  Travis contains (pun intended) a standard build script for most languages (which
+  are selected via the 'language' configuration detailed above), however builds
+  invariably require additional scripts/commands to be run as well - some example
+  use cases could be to run additional tests, or deploy build binaries to an
+  artifact repository. In this case, the commands I specified execute both my
+  unit/integration test suite, and my benchmark suite (Detailed below).
+\end{description}
+
+More information on the contents of .travis.yml files can be found in their
+\href{https://docs.travis-ci.com/}{excellent documentation}.
+
+\begin{listing}[ht]
+\begin{minted}{YAML}
+language: go
+
+go:
+  - 1.3
+  - 1.4
+  - tip
+
+script: go test -v ./... -bench=.
+\end{minted}
+\caption{Initial .travis.yml}
+\label{lst:initialTravis}
+\end{listing}
