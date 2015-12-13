@@ -26,7 +26,7 @@ only three:
   for building and running go projects.
   \item[Go] This section defines different versions of the go compiler you wish
   to build your product on. When code is checked in - Travis will spin up a
-  seperate container for each version specified, and run your complete test suite
+  separate container for each version specified, and run your complete test suite
   inside each container in parallel. This feature is known as the
   '\href{https://docs.travis-ci.com/user/customizing-the-build/#Build-Matrix}{build matrix}',
   and is both \emph{incredibly} useful for ensuring software consistency on multiple
@@ -67,12 +67,12 @@ on each successful build, to help ensure the correctness of my project - as well
 as help guard against possible regression. The unit/integration/benchmark tests
 for my project can be viewed in
 \href{https://github.com/FireEater64/gamq}{my projects Git repository}, and uses
-the GoLang convention of treating all source files of pattern *_test.go as test
+the GoLang convention of treating all source files of pattern '*\_test.go' as test
 files. The specifics of my test harness are outside the scope of my report, which
 deals with my use of Continuous Integration - as a result, only a brief summery of
 tests is given.
 
-My tests fall into two main catagories, and use the standard, built in testing
+My tests fall into two main categories, and use the standard, built in testing
 features of Go:
 
 \subsection{Unit/Integration Tests}
@@ -81,11 +81,11 @@ features of Go:
 Unit/integration tests in go are written in much the same as any other language
 (see Listing~\ref{lst:goUnitTest}) - and afford me protection against code that
 fails to meet specification, as well as regressions in functionality resulting
-from code changes/refactoring. One important (though not definative) metric
+from code changes/re-factoring. One important (though not definitive) metric
 associated with unit/integration tests is \emph{code coverage}, which is the
-total percentage of the codebase which is executed by running unit tests. This
+total percentage of the code-base which is executed by running unit tests. This
 is a useful metric to keep an eye on, as it helps\footnote{Though doesn't always}
-indicate which sections of code are suseptible to bugs as a result of not being
+indicate which sections of code are susceptible to bugs as a result of not being
 tested. Go's built in test runner is capable of producing code coverage reports
 during test runs, however I chose to use an open source tool called '\href{}{gocov}',
 as it allowed me to send the code quality metrics produced my build to another
@@ -98,14 +98,14 @@ this, rather than relying on the build-in HTML report were:
   rather than hiding them away in build logs helps to
   'keep me honest', as well as 'gamify' the process of driving up coverage.
   \item[Monitoring] Coveralls allows me to set 'thresholds' for coverage metrics,
-  and will fail the build if these are not adheered to. For example, my build will
+  and will fail the build if these are not adhered to. For example, my build will
   fail if the coverage of the checked in code is even 0.1\% less than that of the
   previous successful build.
 \end{description}
 
 The code quality metrics for my project are available
 \href{https://coveralls.io/github/FireEater64/gamq?branch=master}{on Coveralls},
-as well as being summerised in the
+as well as being summarised in the
 \href{https://github.com/FireEater64/gamq/blob/master/README.md}{README for my project on GitHub}.
 
 \begin{listing}[ht]
