@@ -45,8 +45,9 @@ only three:
 More information on the contents of .travis.yml files can be found in their
 \href{https://docs.travis-ci.com/}{excellent documentation}.
 
-\begin{listing}[ht]
-\begin{minted}{YAML}
+\begin{listing}
+  \centering
+  \begin{minted}{YAML}
 language: go
 
 go:
@@ -55,9 +56,9 @@ go:
   - tip
 
 script: go test -v ./... -bench=.
-\end{minted}
-\caption{Initial .travis.yml}
-\label{lst:initialTravis}
+  \end{minted}
+  \caption{Initial .travis.yml}
+  \label{lst:initialTravis}
 \end{listing}
 
 Of course, this is only half the story. Using Continuous Integration to ensure
@@ -108,24 +109,64 @@ The code quality metrics for my project are available
 as well as being summarised in the
 \href{https://github.com/FireEater64/gamq/blob/master/README.md}{README for my project on GitHub}\(Figure~\ref{fig:readmeStatus} \).
 
-\begin{listing}[ht]
-\begin{minted}{Go}
-  func Test(t *testing.T) {
-  	underTest := MyClass{}
-  	result := underTest.SomeFunction()
+\begin{listing}
+\centering
+  \begin{minted}{Go}
+func Test(t *testing.T) {
+	underTest := MyClass{}
+	result := underTest.SomeFunction()
 
-  	if result != expected {
-  		t.Fail()
-  	}
-  }
-\end{minted}
-\caption{An example of a unit test in Go}
-\label{lst:goUnitTest}
+	if result != expected {
+		t.Fail()
+	}
+}
+  \end{minted}
+  \caption{An example of a unit test in Go}
+  \label{lst:goUnitTest}
 \end{listing}
 
-\begin{figure}[ht]
+\begin{figure}
   \includegraphics{README}
   \centering
   \caption{Code status badges in README.md}
   \label{fig:readmeStatus}\
 \end{figure}
+
+\subsection{Benchmarks}
+\label{sub:Benchmarks}
+
+As well as ensuring the correctness of the code I check in, monitoring changes in
+performance for certain critical sections of code is also a concern, when building
+a system where speed is required. In order to do this, I used the built-in GoLang
+test framework's benchmark support\footnote{Details about which can be found in
+the \href{https://golang.org/pkg/testing/}{testing package documentation}} to produce
+stable execution times for critical functions. For example,
+Listing~\ref{lst:goBenchmark} shows a benchmark function to evaluate the execution time
+of the \mintinline{Go}{Push()} function for my MessageQueue implementation. When
+run as part of my continuous integration build, the following output
+(Listing~\ref{lst:goBenchmarkOutput})
+
+\begin{listing}
+  \centering
+  \begin{minted}{Go}
+func BenchmarkMessageQueue_Push(t *testing.B) {
+	underTest := NewMessageQueue()
+	testString := "test"
+
+	for i := 0; i < t.N; i++ {
+		underTest.Push(&testString)
+	}
+}
+  \end{minted}
+  \caption{An example of a benchmark in Go}
+  \label{lst:goBenchmark}
+\end{listing}
+
+\begin{listing}
+  \centering
+  \begin{minted}{Go}
+BenchmarkMessageQueue_Push-2  5000000	       239 ns/op
+  \end{minted}
+  \caption{Example benchmark output}
+  \label{lst:goBenchmarkOutput}
+\end{listing}
