@@ -1,6 +1,10 @@
 \section{Lessons from Applying the Selected Practice}
 \label{sec:Lessons from Applying the Selected Practice}
 
+\subsection{What I Did}
+\label{sub:What I Did}
+
+
 Despite my initial plan being to set up and host most of my Continuous
 Integration infrastructure myself, it became clear after an initial trial
 that it would be far easier for me to ensure build repeatability/speed if I used
@@ -39,7 +43,7 @@ only three:
   invariably require additional scripts/commands to be run as well - some example
   use cases could be to run additional tests, or deploy build binaries to an
   artifact repository. In this case, the commands I specified execute both my
-  unit/integration test suite, and my benchmark suite (Detailed below).
+  unit/integration test suite, and my benchmark suite (more details below).
 \end{description}
 
 More information on the contents of .travis.yml files can be found in their
@@ -76,8 +80,8 @@ tests is given.
 My tests fall into two main categories, and use the standard, built in testing
 features of Go:
 
-\subsection{Unit/Integration Tests}
-\label{sub:Unit/Integration Tests}
+\subsubsection{Unit/Integration Tests}
+\label{subs:Unit/Integration Tests}
 
 Unit/integration tests in go are written in much the same as any other language
 (see Listing~\ref{lst:goUnitTest}) - and afford me protection against code that
@@ -132,19 +136,15 @@ func Test(t *testing.T) {
   \label{fig:readmeStatus}\
 \end{figure}
 
-\subsection{Benchmarks}
-\label{sub:Benchmarks}
+\subsubsection{Benchmarks}
+\label{subs:Benchmarks}
 
 As well as ensuring the correctness of the code I check in, monitoring changes in
 performance for certain critical sections of code is also a concern, when building
 a system where speed is required. In order to do this, I used the built-in GoLang
 test framework's benchmark support\footnote{Details about which can be found in
 the \href{https://golang.org/pkg/testing/}{testing package documentation}} to produce
-stable execution times for critical functions. For example,
-Listing~\ref{lst:goBenchmark} shows a benchmark function to evaluate the execution time
-of the \mintinline{Go}{Push()} function for my MessageQueue implementation. When
-run as part of my continuous integration build, the following output
-(Listing~\ref{lst:goBenchmarkOutput})
+stable execution times for critical functions.
 
 \begin{listing}
   \centering
@@ -162,11 +162,28 @@ func BenchmarkMessageQueue_Push(t *testing.B) {
   \label{lst:goBenchmark}
 \end{listing}
 
+For example,
+Listing~\ref{lst:goBenchmark} shows a benchmark function to evaluate the execution time
+of the \mintinline{Go}{Push()} function for my MessageQueue implementation. When
+run as part of my continuous integration build, the following output
+(Listing~\ref{lst:goBenchmarkOutput}) is given for each benchmark. These results
+can then be compared across run, with the (still to be implemented) option of
+failing the build in the event that a major increase in average execution time
+for certain methods is detected, when compared to the previous build (in a similar)
+manner to my code coverage metrics. Furthermore, metrics such are this can be
+graphed at the end of my project, as one way of (hopefully) illustrating the
+fact that my codebase has slowly improved over time.
+
 \begin{listing}
   \centering
-  \begin{minted}{Go}
-BenchmarkMessageQueue_Push-2  5000000	       239 ns/op
+  \begin{minted}{Bash}
+BenchmarkMessageQueue_Push-2 # Benchmark Name
+5000000 # Number of times loop executed to get a stable average
+239 ns/op # Average execution time across all runs
   \end{minted}
   \caption{Example benchmark output}
   \label{lst:goBenchmarkOutput}
 \end{listing}
+
+\subsection{What I Learned}
+\label{sub:What I Learned}
