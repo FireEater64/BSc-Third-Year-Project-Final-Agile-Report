@@ -227,4 +227,12 @@ a good choice for this project:
   \item[\textcolor{green}{$\bullet$}] Very little to self-manage. By removing the
   need to maintain/manage build servers - a (surprisingly large) chunk of time is
   saved, allowing me to focus more on my code/tests, rather than my build infrastructure.
+  \item[\textcolor{green}{$\bullet$}] Tight integration with GitHub, which allows
+  me to
+  \href{https://github.com/FireEater64/gamq/releases}{publish build artifacts as part of a Travis build},
+  and automatically build/test any pull requests I receive in the future (none yet sadly).
+  \item[\textcolor{red}{$\bullet$}] Public infrastructure, so uploading sensitive
+  data/code, private keys, passwords etc. is not a good idea. Fortunately, what little
+  information I do need to upload (such as my \href{https://github.com/FireEater64/gamq/blob/aabc34061b46f5b743d62681e8d19a74c907ec83/.travis.yml#L27}{GitHub API key for pushing build artifacts}
+  can be \href{https://docs.travis-ci.com/user/encryption-keys/}{encrypted}.)
 \end{itemize}
