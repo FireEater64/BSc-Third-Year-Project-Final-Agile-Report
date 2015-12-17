@@ -13,7 +13,7 @@ With this in mind, I elected to use the popular and
 excellent \href{https://travis-ci.org/}{Travis CI} - which provides a free tier
 for open-source projects such as mine. Setup was as simple as adding a
 `.travis.yml` file to my project, and enabling my GitHub repo for builds on
-the Travis.ci admin panel. My initial .travis.yml file can be seen in
+the Travis.CI admin panel. My initial .travis.yml file can be seen in
 Listing~\ref{lst:initialTravis}, and the latest version is available
 \href{https://github.com/FireEater64/gamq/blob/master/.travis.yml}{on GitHub}.
 There are a multitude of configurable options available, but
@@ -24,7 +24,7 @@ only three:
   \item[Language] Defines the language of the project being built - in this case
   \href{https://golang.org/}{GoLang}. TravisCI builds (usually) take place
   inside \href{https://www.docker.com/what-docker}{Docker containers}, with the
-  'language' section of config dictating which pre-built container is used for
+  'language' section of configuration dictating which pre-built container is used for
   this particular build. In this case, a language of 'go' will ensure that the
   build container contains all of the binaries and environment variables required
   for building and running go projects.
@@ -42,7 +42,7 @@ only three:
   are selected via the 'language' configuration detailed above), however builds
   invariably require additional scripts/commands to be run as well - some example
   use cases could be to run additional tests, or deploy build binaries to an
-  artifact repository. In this case, the commands I specified execute both my
+  artefact repository. In this case, the commands I specified execute both my
   unit/integration test suite, and my benchmark suite (more details below).
 \end{description}
 
@@ -187,3 +187,44 @@ BenchmarkMessageQueue_Push-2 # Benchmark Name
 
 \subsection{What I Learned}
 \label{sub:What I Learned}
+
+Despite my having experience using Continuous Integration on large software
+projects, I still feel that this exercise has taught me much:
+
+\subsubsection{Exposure to TravisCI, and the GitHub CI workflows}
+\label{subs:Exposure to TravisCI, and the GitHub CI workflows}
+
+My previous experiences with Continuous Integration were largely based around
+enterprise-scale, in house \href{https://www.jetbrains.com/teamcity/}{TeamCity}
+deployments. There are several pros and cons to this approach:
+
+\begin{itemize}
+  \item[\textcolor{green}{$\bullet$}] Complete control over the build flow/build agent configuration
+  \item[\textcolor{green}{$\bullet$}] Hosted internally, so builds can contain
+  sensitive information (API Keys/propriatry code etc.)
+  \item[\textcolor{red}{$\bullet$}] Difficult to scale dynamically
+  (have to configure additional build agents)
+  \item[\textcolor{red}{$\bullet$}] Slow to get started with - very little
+  configuration out of the box
+  \item[\textcolor{red}{$\bullet$}] Limited integration with other (non-JetBrains)
+  services
+\end{itemize}
+
+Contrasting these points with a solution like TravisCI reveals why (I believe) it was
+a good choice for this project:
+
+\begin{itemize}
+  \item[\textcolor{green}{$\bullet$}] Very little configuration required to get
+  set up (as shown in Section~\ref{sub:What I Did})
+  \item[\textcolor{green}{$\bullet$}] Powerful, easily configurable integration
+  with other web services, such as Coveralls
+  (discussed in Section~\ref{sub:What I Did}) and \href{https://pushover.net/}{Pushover}
+  (which I used for build success/failure notifications)
+  \item[\textcolor{green}{$\bullet$}] Easy to scale, as a result in running (most)
+  builds inside Docker containers - which are spun up on demand - Travis allows
+  for several builds to be executed at the same time, which shortens the feedback
+  loop after checking in code.
+  \item[\textcolor{green}{$\bullet$}] Very little to self-manage. By removing the
+  need to maintain/manage build servers - a (surprisingly large) chunk of time is
+  saved, allowing me to focus more on my code/tests, rather than my build infrastructure.
+\end{itemize}
