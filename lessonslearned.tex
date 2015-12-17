@@ -187,3 +187,44 @@ BenchmarkMessageQueue_Push-2 # Benchmark Name
 
 \subsection{What I Learned}
 \label{sub:What I Learned}
+
+Despite my having experience using Continuous Integration on large software
+projects, I still feel that this exercise has taught me much:
+
+\subsubsection{Exposure to TravisCI, and the GitHub CI workflows}
+\label{subs:Exposure to TravisCI, and the GitHub CI workflows}
+
+My previous experiences with Continuous Integration were largely based around
+enterprise-scale, in house \href{https://www.jetbrains.com/teamcity/}{TeamCity}
+deployments. There are several pros and cons to this approach:
+
+\begin{itemize}
+  \item[\textcolor{green}{$\bullet$}] Complete control over the build flow/build agent configuration
+  \item[\textcolor{green}{$\bullet$}] Hosted internally, so builds can contain
+  sensitive information (API Keys/propriatry code etc.)
+  \item[\textcolor{red}{$\bullet$}] Difficult to scale dynamically
+  (have to configure additional build agents)
+  \item[\textcolor{red}{$\bullet$}] Slow to get started with - very little
+  configuration out of the box
+  \item[\textcolor{red}{$\bullet$}] Limited integration with other (non-JetBrains)
+  services
+\end{itemize}
+
+Contrasting these points with a solution like TravisCI reveals why (I believe) it was
+a good choice for this project:
+
+\begin{itemize}
+  \item[\textcolor{green}{$\bullet$}] Very little configuration required to get
+  set up (as shown in Section~\ref{sub:What I Did})
+  \item[\textcolor{green}{$\bullet$}] Powerful, easily configurable integration
+  with other web services, such as Coveralls
+  (discussed in Section~\ref{sub:What I Did}) and \href{https://pushover.net/}{Pushover}
+  (which I used for build success/failure notifications)
+  \item[\textcolor{green}{$\bullet$}] Easy to scale, as a result in running (most)
+  builds inside Docker containers - which are spun up on demand - Travis allows
+  for several builds to be executed at the same time, which shortens the feedback
+  loop after checking in code.
+  \item[\textcolor{green}{$\bullet$}] Very little to self-manage. By removing the
+  need to maintain/manage build servers - a (surprisingly large) chunk of time is
+  saved, allowing me to focus more on my code/tests, rather than my build infrastructure.
+\end{itemize}
