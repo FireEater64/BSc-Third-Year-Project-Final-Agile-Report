@@ -53,12 +53,13 @@ here's a few suggestions of ways to take it to the next level:
   \item Following on from the previous point, you should automatically fail the
   build if any benchmark results exhibits more than, say, 10\% regression compared
   to the previous build. Again - this could be scripted.
-  \item 100\% code coverage! If a bank can do it - so can you!
+  \item 100\% code coverage (or close enough)!
   \item Build OS X and Windows binaries as part of the build. Travis has support
   for building on OS X systems, and you could use something like
   \href{http://www.appveyor.com/}{AppVeyor} to build on Windows. Alternatively,
   \href{http://dave.cheney.net/2015/08/22/cross-compilation-with-go-1-5}{Go
   has excellent support for cross compilation}, you could simply tweak the build
   script to build (and archive) a Windows, OS X and Linux
-  binary\footnote{You could even build versions for both ARM and Intel architectures if you get bored}.
+  binary\footnote{You could even build versions for both ARM and Intel architectures if you get bored} for
+  people to download.
 \end{itemize}

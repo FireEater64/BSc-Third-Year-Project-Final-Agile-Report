@@ -13,11 +13,11 @@ With this in mind, I elected to use the popular and
 excellent \href{https://travis-ci.org/}{Travis CI} - which provides a free tier
 for open-source projects such as mine. Setup was as simple as adding a
 `.travis.yml` file to my project, and enabling my GitHub repo for builds on
-the Travis.CI admin panel. My initial .travis.yml file can be seen in
+the Travis CI admin panel. My initial .travis.yml file can be seen in
 Listing~\ref{lst:initialTravis}, and the latest version is available
 \href{https://github.com/FireEater64/gamq/blob/master/.travis.yml}{on GitHub}.
 There are a multitude of configurable options available, but
-my initial, basic configuration in Listing~\ref{lst:initialTravis} consists of
+my initial configuration in Listing~\ref{lst:initialTravis} consisted of
 only three:
 
 \begin{description}
@@ -25,9 +25,9 @@ only three:
   \href{https://golang.org/}{GoLang}. TravisCI builds (usually) take place
   inside \href{https://www.docker.com/what-docker}{Docker containers}, with the
   'language' section of configuration dictating which pre-built container is used for
-  this particular build. In this case, a language of 'go' will ensure that the
+  this particular build. In this case, a language value of 'go' will ensure that the
   build container contains all of the binaries and environment variables required
-  for building and running go projects.
+  for building and running GoLang projects.
   \item[Go] This section defines different versions of the go compiler you wish
   to build your product on. When code is checked in - Travis will spin up a
   separate container for each version specified, and run your complete test suite
@@ -88,7 +88,7 @@ Unit/integration tests in go are written in much the same as any other language
 fails to meet specification, as well as regressions in functionality resulting
 from code changes/re-factoring. One important (though not definitive) metric
 associated with unit/integration tests is \emph{code coverage}, which is the
-total percentage of the code-base which is executed by running unit tests. This
+total percentage of the code-base that is executed when running unit tests. This
 is a useful metric to keep an eye on, as it helps\footnote{Though doesn't always}
 indicate which sections of code are susceptible to bugs as a result of not being
 tested. Go's built in test runner is capable of producing code coverage reports
@@ -190,10 +190,7 @@ BenchmarkMessageQueue_Push-2 # Benchmark Name
 \label{sub:What I Learned}
 
 Despite my having experience using Continuous Integration on large software
-projects, I still feel that this exercise has taught me much:
-
-\subsubsection{Exposure to TravisCI, and the GitHub CI workflows}
-\label{subs:Exposure to TravisCI, and the GitHub CI workflows}
+projects, I still feel that this exercise has taught me much.
 
 My previous experiences with Continuous Integration were largely based around
 enterprise-scale, in house \href{https://www.jetbrains.com/teamcity/}{TeamCity}
@@ -215,7 +212,7 @@ My initial attempts at continuous integration followed this pattern, using
 a self-hosted instance of \href{http://jenkins-ci.org/}{Jenkins CI}
 (Figure~\ref{fig:jenkinsDashboard} ) to build early versions of my project,
 final report and seminar presentation\footnote{Both of which were written in
-\LaTeX. My CI builds for these projects would build and spell check the latest
+\LaTeX. My CI builds for these projects builds and spell checks the latest
 versions of the code, and send the completed report to my
 supervisor}.
 
