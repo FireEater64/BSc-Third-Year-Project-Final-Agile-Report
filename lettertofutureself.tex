@@ -1,2 +1,64 @@
 \section{Letter to Your Future Self}
 \label{sec:Letter to Your Future Self}
+
+Dear George,
+
+
+First of all - if you can send back a letter with todays lottery numbers, that
+would be great. I hear Euromillions pays well.
+
+
+Secondly, get back to work! You've got a project to finish! Don't worry though,
+you've got an awesome \emph{Continuous Integration} setup, to help make sure that all
+the code you write from here on out is pure gold. You're welcome.
+
+
+In all seriousness, I think you should be seriously proud of the work you've
+done on your Continuous Integration and testing frameworks - and should \emph{continue
+to use them for the remainder of your project}. Just in case you've forgotten:
+
+\begin{itemize}
+  \item They've already caught several bugs (and will continue to catch more)!
+  Remember the time you
+  \href{https://travis-ci.org/FireEater64/gamq/jobs/93403350#L124}{tried to write
+  metrics to a read-only channel}? The time you
+  \href{https://travis-ci.org/FireEater64/gamq/builds/92762624}{used a range
+  operator that didn't work in Go 1.3}? The time you
+  \href{https://travis-ci.org/FireEater64/gamq/jobs/95112027#L143}{found} and
+  \href{https://github.com/FireEater64/gamq/commit/5ab48972a8c463859d631f37f75752fd1bfe42d0}{fixed}
+  that nasty race condition? None of those would have happened without CI.
+  \item It's free marks! I know Agile is behind you now
+  (thank goodness\footnote{Only joking - I love Agile :)}), but the report is
+  looming. Mentioning the awesome workflow you've come with has got to be worth
+  something, right?
+  \item It's just plain easier. Do you want to go back to the days of compiling
+  the latest version of your binary in from of your supervisor - trying to make
+  sure you check out the exact Git version that contains the changes you want to
+  show? Why not just
+  \href{https://github.com/FireEater64/gamq/releases}{download the pre-built binary from GitHub}?
+  Want to make sure your tests are covering everything you need? Why use those
+  cryptic command line tools - just check \href{https://coveralls.io/github/FireEater64/gamq?branch=master}{Coveralls}!
+\end{itemize}
+
+So - hopefully that's got you (at least somewhat) convinced CI is for life, not
+just for Christmas. Travis is already doing a lot of awesome stuff for you, but
+here's a few suggestions of ways to take it to the next level:
+
+\begin{itemize}
+  \item Automatically collect and plot the results of your running benchmarks\footnote{Currently a manual process}.
+  This could be done with some minor adjustments to the build script, and results
+  can be sent to some kind of StatsD instance for plotting
+  (\href{https://github.com/FireEater64/grafana-statsd-influxdb-docker}{Which you
+  were planning on using as part of your project anyway}
+  \item Following on from the previous point, you should automatically fail the
+  build if any benchmark results exhibits more than, say, 10\% regression compared
+  to the previous build. Again - this could be scripted.
+  \item 100\% code coverage! If a bank can do it - so can you!
+  \item Build OS X and Windows binaries as part of the build. Travis has support
+  for building on OS X systems, and you could use something like
+  \href{http://www.appveyor.com/}{AppVeyor} to build on Windows. Alternatively,
+  \href{http://dave.cheney.net/2015/08/22/cross-compilation-with-go-1-5}{Go
+  has excellent support for cross compilation}, you could simply tweak the build
+  script to build (and archive) a Windows, OS X and Linux
+  binary\footnote{You could even build versions for both ARM and Intel architectures if you get bored}.
+\end{itemize}

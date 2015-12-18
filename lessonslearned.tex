@@ -51,7 +51,7 @@ More information on the contents of .travis.yml files can be found in their
 
 \begin{listing}
   \centering
-  \begin{minted}{YAML}
+  \begin{minted}[frame=single,framesep=10pt]{YAML}
 language: go
 
 go:
@@ -111,11 +111,12 @@ this, rather than relying on the build-in HTML report were:
 The code quality metrics for my project are available
 \href{https://coveralls.io/github/FireEater64/gamq?branch=master}{on Coveralls},
 as well as being summarised in the
-\href{https://github.com/FireEater64/gamq/blob/master/README.md}{README for my project on GitHub}\(Figure~\ref{fig:readmeStatus} \).
+\href{https://github.com/FireEater64/gamq/blob/master/README.md}{README for my
+project on GitHub}\(Figure~\ref{fig:readmeStatus} \).
 
 \begin{listing}
 \centering
-  \begin{minted}{Go}
+  \begin{minted}[frame=single,framesep=10pt]{Go}
 func Test(t *testing.T) {
 	underTest := MyClass{}
 	result := underTest.SomeFunction()
@@ -133,7 +134,7 @@ func Test(t *testing.T) {
   \includegraphics{README}
   \centering
   \caption{Code status badges in README.md}
-  \label{fig:readmeStatus}\
+  \label{fig:readmeStatus}
 \end{figure}
 
 \subsubsection{Benchmarks}
@@ -148,7 +149,7 @@ stable execution times for critical functions.
 
 \begin{listing}
   \centering
-  \begin{minted}{Go}
+  \begin{minted}[frame=single,framesep=10pt]{Go}
 func BenchmarkMessageQueue_Push(t *testing.B) {
 	underTest := NewMessageQueue()
 	testString := "test"
@@ -176,7 +177,7 @@ fact that my codebase has slowly improved over time.
 
 \begin{listing}
   \centering
-  \begin{minted}{Bash}
+  \begin{minted}[frame=single, framesep=10pt]{Bash}
 BenchmarkMessageQueue_Push-2 # Benchmark Name
 5000000 # Number of times loop executed to get a stable average
 239 ns/op # Average execution time across all runs
@@ -210,8 +211,25 @@ deployments. There are several pros and cons to this approach:
   services
 \end{itemize}
 
-Contrasting these points with a solution like TravisCI reveals why (I believe) it was
-a good choice for this project:
+My initial attempts at continuous integration followed this pattern, using
+a self-hosted instance of \href{http://jenkins-ci.org/}{Jenkins CI}
+(Figure~\ref{fig:jenkinsDashboard} ) to build early versions of my project,
+final report and seminar presentation\footnote{Both of which were written in
+\LaTeX. My CI builds for these projects would build and spell check the latest
+versions of the code, and send the completed report to my
+supervisor}.
+
+\begin{figure}
+  \noindent\makebox[\textwidth]{\includegraphics[width=\textwidth]{Jenkins}}
+  \centering
+  \caption{Jenkins build dashboard}
+  \label{fig:jenkinsDashboard}
+\end{figure}
+
+Shortly after setting up my intiial project build, however, I began to run into
+issues with managing my own build infrastructure (some of which are outlined
+above) which lead me to look into using a hosted solution like TravisCI as an
+alternative. In contrast to the above points:
 
 \begin{itemize}
   \item[\textcolor{green}{$\bullet$}] Very little configuration required to get
@@ -235,4 +253,31 @@ a good choice for this project:
   data/code, private keys, passwords etc. is not a good idea. Fortunately, what little
   information I do need to upload (such as my \href{https://github.com/FireEater64/gamq/blob/aabc34061b46f5b743d62681e8d19a74c907ec83/.travis.yml#L27}{GitHub API key for pushing build artifacts}
   can be \href{https://docs.travis-ci.com/user/encryption-keys/}{encrypted}.)
+  \item[\textcolor{red}{$\bullet$}] Limited control over build agent configuration. Currently,
+  users have no control over the base TravisCI container/VM image. It is, however
+  completely possible to install/configure additional software at build time
+  (although this can inrease the build time significantly/lead to bloated build scripts).
+  Refer to the \href{https://docs.travis-ci.com/user/ci-environment/#Virtualization-environments}{Travis documentation}
+  for more information.
 \end{itemize}
+
+One other frequently cited concern with using a cloud-based CI provider, is that
+these services can be unreliable/are outside of your control. Whilst it's true
+that online services have suffered several (high-profile) outages in the past,
+my personal view (and one which is backed by several months of flawless service)
+is that the engineering expertise of companies like Travis are capable of producing
+a service reliable enough for the majority of open source projects/myself
+(and that is certainly more reliable than any service I could roll myself - as per
+my server uptime in Figure~\ref{georgeServeUptime}).
+
+\begin{figure}
+  \noindent\makebox[\textwidth]{\includegraphics[width=\textwidth]{GeorgeServeUptime}}
+  \centering
+  \caption{My attempts at keeping a server online}
+  \label{fig:georgeServeUptime}
+\end{figure}
+
+I ended up switching my build to TravisCI for the above reasons\footnote{For my
+main project build - my \LaTeX builds are staying on Jenkins
+(at least in the short term), due to limited *Tex support from TravisCI}, and
+couldn't be happier with how it's worked for me.
